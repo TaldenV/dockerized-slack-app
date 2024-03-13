@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsc-watch --project . --outDir ./dist --onSuccess \"nodemon ./dist/bin/www.js\""
+    "lint": "eslint 'src/**/*.mjs' && commitlint --from=HEAD~1 --to HEAD --verbose",
+    "dev": "tsc-watch --project . --outDir ./dist --onSuccddess \"nodemon ./dist/bin/www.js\""
   },
   "author": "TJ VanderLouw",
   "license": "ISC",
@@ -28,6 +29,7 @@
     "@types/node": "^20.11.25",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
+    "eslint-config-google": "^0.14.0",
     "esm": "^3.2.25",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",

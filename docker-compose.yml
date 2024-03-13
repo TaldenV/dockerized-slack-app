@@ -1,16 +1,35 @@
 version: "3"
+
 services:
-    node-express-docker:
+    mongodb:
+        image: mongo
+        container_name: mongodb
+        restart: unless-stopped
+        env_file: .env
         environment:
-            - NODE_ENV=development
-        build:
-            context: .
-            dockerfile: Dockerfile.dev
-        volumes:
-            - ./:/usr/app
-        container_name: node-express-docker
-        expose:
-            - "3000"
+            - MONGO_INITDB_ROOT_USERNAME=$MONGO_USER
+            - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
         ports:
-            - "4000:4000"
-        command: npm run dev
+            - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+        volumes:
+          - db:/data/db
+    app:
+        depends_on:
+            - mongodb
+        container_name: app
+        build: ./app
+        restart: unless-stopped
+        env_file: ./.env
+        ports:
+            - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+        environment:
+            - DB_HOST=mongodb
+            - DB_USER=$MONGODB_USER
+            - DB_PASSWORD=$MONGODB_PASSWORD
+            - DB_NAME=$MONGODB_DATABASE
+            - DB_PORT=$MONGODB_DOCKER_PORT
+        stdin_open: true
+        tty: true
+
+volumes:
+    db:

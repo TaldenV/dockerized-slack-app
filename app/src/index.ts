@@ -2,7 +2,6 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import slackApp from './slackApp.js';
-import authorize from './gmailApp.js';
 import { google } from 'googleapis';
 import { OAuth2Client } from "google-auth-library";
 
@@ -12,17 +11,21 @@ async function main() {
   const app: Express = express();
   const port = process.env.PORT || 3000;
 
+  const boltApp = slackApp();
+  await boltApp.start(process.env.SLACK_APP_PORT || 3333);
+
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
+
+
 
   app.get('/', (req: Request, res: Response) => {
       res.send('Hello World!');
   });
 
-  const boltApp = await slackApp();
+
 
   app.get('/slack/health', (req: Request, res: Response) => {
-    
     boltApp.client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN,
       channel: process.env.SLACK_BOT_CHANNEL || 'bot-spam',
