@@ -1,9 +1,11 @@
 import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import slackApp from './slackApp.js';
+import dotenv from 'dotenv';
 import { google } from 'googleapis';
-import { OAuth2Client } from "google-auth-library";
+import passport from 'passport';
+import mongoose from 'mongoose';
+
+import slackApp from './slackApp.js';
 
 dotenv.config();
 
@@ -17,13 +19,16 @@ async function main() {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
+  app.use(passport.initialize());
+  app.use(passport.session());
 
+  mongoose.connect(process.env.MONGO_URI, () => {
+    console.log('Connected to MongoDB');
+  });
 
   app.get('/', (req: Request, res: Response) => {
       res.send('Hello World!');
   });
-
-
 
   app.get('/slack/health', (req: Request, res: Response) => {
     boltApp.client.chat.postMessage({
