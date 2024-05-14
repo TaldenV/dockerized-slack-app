@@ -19,7 +19,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18, 20]
+        node-version: [20]
 
     steps:
     - uses: actions/checkout@v3
@@ -31,6 +31,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
+    - name: Go to app directory
+      run: cd app
 
     - name: Install Dependencies
       run: npm ci
@@ -53,7 +56,6 @@ jobs:
 
 
   build:
-
     runs-on: ubuntu-latest
 
     steps:

@@ -3,8 +3,9 @@
 .config
 .npm
 .vscode
+credentials.json
 node_modules
 README.md
-# **/.env
+**/.env
 **/*dist
 **/*logs

@@ -1,0 +1,33 @@
+{
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "Authorize"
+			},
+			"acceptButton": {
+				"type": "button",
+				"text": {
+					"type": "plain_text",
+					"text": "Accept",
+					"emoji": true
+				},
+				"value": "click_me_123",
+				"url": "https://google.com",
+				"action_id": "button-action"
+			},
+			"rejectButton": {
+				"type": "button",
+				"text": {
+					"type": "plain_text",
+					"text": "Reject",
+					"emoji": true
+				},
+				"value": "click_me_123",
+				"url": "https://google.com",
+				"action_id": "button-action"
+			}
+		}
+	]
+}
